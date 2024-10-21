@@ -5,7 +5,7 @@ import threading
 import time
 
 #INPUT IP dan PORT SERVER device lain
-IpAddress = input("Masukkan IP Adress: ")
+IpAddress = input("Masukkan IP Address: ")
 portServer = int(input("Masukkan Port Number: "))
 clientPort = int(input("Masukkan clientPort: "))
 
