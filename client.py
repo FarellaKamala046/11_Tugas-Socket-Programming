@@ -1,18 +1,89 @@
 import socket
 import threading
 import time
+import csv
+import os
+
+ascii_art = """
+__        __   _                            _        
+\ \      / /__| | ___ ___  _ __ ___   ___  | |_ ___  
+ \ \ /\ / / _ \ |/ __/ _ \| '_ ` _ \ / _ \ | __/ _ \ 
+  \ V  V /  __/ | (_| (_) | | | | | |  __/ | || (_) |
+  _\_/\_/ \___|_|\___\___/|_| |_| |_|\___|  \__\___/ 
+ / ___| |__   __ _| |_|  _ \ ___   ___  _ __ ___ | | 
+| |   | '_ \ / _` | __| |_) / _ \ / _ \| '_ ` _ \| | 
+| |___| | | | (_| | |_|  _ < (_) | (_) | | | | | |_| 
+ \____|_| |_|\__,_|\__|_| \_\___/ \___/|_| |_| |_(_) 
+
+"""
+
+# Fungsi untuk memuat data pengguna dari file CSV
+def load_users(filename='users.csv'):
+    users = {}
+    if os.path.exists(filename):
+        with open(filename, mode='r') as file:
+            reader = csv.reader(file)
+            next(reader)  # Skip header
+            for row in reader:
+                username, password = row
+                users[username] = password
+    return users
+
+# Fungsi untuk menyimpan pengguna baru ke file CSV
+def save_user(username, password, filename='users.csv'):
+    with open(filename, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([username, password])
+
+# Fungsi untuk login
+def login(users):
+    while True:
+        username = input("Masukkan username: ")
+        password = input("Masukkan password: ")
+        if username in users and users[username] == password:
+            print("Login berhasil!")
+            print(ascii_art)
+            return username
+        else:
+            print("Username atau password salah. Coba lagi.")
+
+# Fungsi untuk registrasi
+def register(users):
+    while True:
+        username = input("Masukkan username baru: ")
+        if username in users:
+            print("Username sudah terdaftar. Coba username lain.")
+        else:
+            password = input("Masukkan password baru: ")
+            save_user(username, password)
+            print("Registrasi berhasil!")
+            return username
 
 # INPUT IP dan PORT SERVER device lain
-IpAddress = input("Masukkan IP Adress: ")
+IpAddress = input("Masukkan IP Address: ")
 portServer = int(input("Masukkan Port Number: "))
 clientPort = int(input("Masukkan clientPort: "))
-username = input("Masukkan username Anda: ")  # Input username
 
 # Ini bikin pintu buat client (socketnya client)
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Buat custom port
-clientSocket.bind(('', clientPort))
+clientSocket.bind(('0.0.0.0', clientPort))  # Bind ke semua alamat
+
+# Memuat pengguna dari file
+users = load_users()
+
+# Memilih antara login atau registrasi
+while True:
+    action = input("Apa yang kamu mau?\n1. Login\n2. Register\n\nMasukkan angka: ")
+    if action == '1':
+        username = login(users)
+        break
+    elif action == '2':
+        username = register(users)
+        break
+    else:
+        print("Pilihan tidak valid. Silakan pilih 1 atau 2.")
 
 # Inisialisasi untuk nomor urut dan ACK
 noUrut = 0
