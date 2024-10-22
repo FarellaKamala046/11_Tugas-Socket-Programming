@@ -1,12 +1,14 @@
 import socket
 
 # Input IP dan port
-IpAddress = input("Enter server IP (e.g., 127.0.0.1): ")
-portServer = int(input("Enter server port (e.g., 12345): "))
+IpAddress = input("Masukkan IP Address: ")
+portServer = int(input("Masukkan Port Number: "))
 
+# Membuat server socket
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-serverSocket.bind((IpAddress, portServer))
+serverSocket.bind((IpAddress, portServer))  # Buat ngiket si IP sama port biar server bisa nerima pesannya
 
+# Inisialisasi
 clients = {}
 noClient = {}
 
@@ -14,10 +16,11 @@ print(f"Chatroom server running on {IpAddress}:{portServer}...")
 
 while True:
     data, clientAddress = serverSocket.recvfrom(1024)
-    message = data.decode()
+    message = data.decode() # Decode ini ngubah pesan dari byte ke string
     noUrut, username, pesan = message.split("|", 2)
     noUrut = int(noUrut)
     
+    # Buat client baru
     if clientAddress not in clients:
         clients[clientAddress] = username
         noClient[clientAddress] = -1
