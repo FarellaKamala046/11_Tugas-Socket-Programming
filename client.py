@@ -4,7 +4,7 @@ import time
 import csv
 import os
 
-# Buat fungsi untuk caesar cipher enkripsi dan deskripsi
+# Buat fungsi untuk caesar cipher enkripsi dan dekripsi
 def caesar_encrypt(text, shift=11):
     encrypted = ""
     for char in text:

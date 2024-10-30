@@ -1,6 +1,6 @@
 import socket
 
-# Fungsi enkripsi menggunakan Caesar Cipher
+# Fungsi enkripsi menggunakan Caesar Cipher enskripsi
 def caesar_encrypt(text, shift):
     encrypted_text = ""
     for char in text:
@@ -11,7 +11,7 @@ def caesar_encrypt(text, shift):
             encrypted_text += char
     return encrypted_text
 
-# Fungsi dekripsi menggunakan Caesar Cipher
+# Fungsi dekripsi menggunakan Caesar Cipher dekripsi
 def caesar_decrypt(text, shift):
     decrypted_text = ""
     for char in text:
