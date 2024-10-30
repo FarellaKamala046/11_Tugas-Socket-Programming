@@ -85,32 +85,51 @@ while True:
     else:
         print("Pilihan tidak valid. Silakan pilih 1 atau 2.")
 
+# Kirim password server untuk autentikasi
+server_password = input("Masukkan password server: ")
+message = f"PASSWORD_CHECK|{username}|{server_password}"
+clientSocket.sendto(message.encode(), (IpAddress, portServer))
+
 # Inisialisasi untuk nomor urut dan ACK
 noUrut = 0
 ackTerima = False
 durasiTimeout = 2.0  # Durasi timeout tunggu ack
+authenticated = False  # Flag untuk menandakan apakah sudah terautentikasi
+
+# Terima respon dari server untuk autentikasi
+response, addr = clientSocket.recvfrom(1024)
+if response.decode() == "AUTH_SUCCESS":
+    print("Password server benar. Selamat datang di chatroom!")
+    authenticated = True  # Set status autentikasi
+else:
+    print("Password server salah. Anda tidak dapat masuk ke chatroom.")
+    exit()  # Keluar dari program jika autentikasi gagal
 
 # Fungsi kirim pesan ke server
 def sendMessage():
-    global noUrut, ackTerima
+    global noUrut, ackTerima, authenticated
     while True:
-        data = input("You: ")  # Input pesan dari user (tampilannya 'You')
-        message = f"{noUrut}|{username}|{data}"  # Kirim nomor urut dan username ke server
-        clientSocket.sendto(message.encode(), (IpAddress, portServer))  # Kirim pesan ke server
-        
-        # Tunggu ACK
-        startTime = time.time()
-        while time.time() - startTime < durasiTimeout:
-            if ackTerima:
-                noUrut += 1  # Naikkan nomor urut jika ACK diterima
-                ackTerima = False  # Reset status ACK
-                break
-        if not ackTerima:
-            clientSocket.sendto(message.encode(), (IpAddress, portServer))
+        if authenticated:  # Hanya kirim pesan jika sudah terautentikasi
+            data = input("You: ")  # Input pesan dari user (tampilannya 'You')
+            message = f"{noUrut}|{username}|{data}"  # Kirim nomor urut dan username ke server
+            clientSocket.sendto(message.encode(), (IpAddress, portServer))  # Kirim pesan ke server
+            
+            # Tunggu ACK
+            startTime = time.time()
+            while time.time() - startTime < durasiTimeout:
+                if ackTerima:
+                    noUrut += 1  # Naikkan nomor urut jika ACK diterima
+                    ackTerima = False  # Reset status ACK
+                    break
+            if not ackTerima:
+                clientSocket.sendto(message.encode(), (IpAddress, portServer))
 
 # Fungsi untuk menerima pesan dari server
 def receiveMessage():
     global ackTerima
+    while not authenticated:  # Tunggu sampai terautentikasi
+        time.sleep(0.5)
+
     while True:
         try:
             data, addr = clientSocket.recvfrom(1024)
@@ -134,10 +153,11 @@ def receiveMessage():
             print(f"LOG: Error saat menerima pesan: {e}")
             break
 
-# Thread untuk mengirim dan menerima pesan
+# Thread untuk mengirim dan menerima pesan (akan diaktifkan setelah autentikasi berhasil)
 sendThread = threading.Thread(target=sendMessage)
 receiveThread = threading.Thread(target=receiveMessage)
 
+# Mulai thread pengiriman dan penerimaan pesan setelah autentikasi berhasil
 sendThread.start()
 receiveThread.start()
 
