@@ -46,7 +46,33 @@ __        __   _                            _
 | |   | '_ \ / _` | __| |_) / _ \ / _ \| '_ ` _ \| | 
 | |___| | | | (_| | |_|  _ < (_) | (_) | | | | | |_| 
  \____|_| |_|\__,_|\__|_| \_\___/ \___/|_| |_| |_(_) 
-
+"""
+ascii_raiden = """
+⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⣤⠞⠛⣻⣧⣷⣾⣿⣿⣿⣿⣶⣶⣯⣤⣀⡀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠡⠀⠀⠀⢀⢠⠀⠀⠀⢔⣾⣷⠟⠁⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣭⡢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⢂⢀⢴⣿⣯⡻⣟⣵⣿⣿⣁⠨⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⣿⡿⣹⣾⠷⡿⢿⣿⢿⣿⠀⡄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣦⡠⠀⠀⠀⠀⠀⠀⠀
+⢀⣼⠿⣽⣿⠁⢎⡀⢌⣠⠏⢻⡆⢸⣿⣿⢿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣷⣻⢿⣿⣿⣿⣿⣷⡠⠀⠀⠀⠀⠀⠀
+⢸⣯⢿⣿⡿⡀⣘⠎⠙⢶⡀⠌⣿⠑⣿⣯⢿⡿⣿⣿⣯⣟⡿⣿⣿⡿⣿⣽⣟⡿⣭⣟⣾⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀
+⢸⢯⣿⣿⣷⡑⠑⠲⡄⡖⠛⠒⣼⣿⣿⣽⣯⣿⣿⣿⡷⣯⣿⣽⣳⢿⣽⣻⣾⣽⣿⣿⣿⣾⣿⣿⣿⣿⣧⠂⠀⠀⠀⠀
+⢸⣯⣿⣿⣿⠿⣧⣆⠻⣄⣶⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀
+⠘⣷⣿⡙⠁⢀⣻⣿⣿⠛⠻⢿⣿⣿⣿⣿⡿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀
+⠀⢽⣥⣷⠂⡀⢠⣿⣯⣑⣠⣾⣿⣿⣿⣿⠃⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣣⠀⠀⠀
+⠀⠀⠙⣿⣿⢿⣶⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣿⣿⣿⣿⣿⣿⣿⣻⠀⠀⠀
+⠀⠀⢰⣿⡏⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣗⠀⣀⣀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣯⠀⠀⠀
+⠀⠀⣿⠇⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠉⠀⠀⠀⠈⠻⢿⣯⡻⢿⣿⣟⣿⣿⣿⠿⠿⠿⠟⢻⣿⣿⣿⣿⣿⢇⠀⠀
+⠀⢰⡟⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⡛⠿⣆⠀⠀⠀⠀⠀⠀⠉⠁⠀⠉⠉⠉⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣟⣿⣯⠆⠀
+⠀⠺⣧⣄⣠⣿⣿⡿⠛⠻⣿⡿⣿⣿⡇⢀⣠⣤⣤⣤⣅⣒⠀⠀⠀⠀⠀⠀⠀⣮⣶⡾⢿⢷⠖⣿⣿⣿⣿⣿⡹⣿⣧⠀
+⠀⠀⢸⣿⣿⣿⡿⠠⠤⣄⡈⠧⢿⣿⣯⠛⠛⠛⠉⠉⠉⠙⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⡜⣿⡆
+⠀⢠⣿⣿⣿⣿⣿⣄⠀⠘⠮⠖⠈⢿⣿⣧⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⡿⣽⣿⣸⠇
+⠀⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⣤⣶⣶⣽⣻⢿⣷⠦⠀⠀⠀⠀⢄⣀⣀⡀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⡿⠀
+⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣤⣤⣀⣀⡀⣠⠞⢉⣶⡤⢤⣴⣶⣿⣿⣿⣿⣿⣿⣿⣿⠿⠋⠀⠀
+⠀⣻⣿⣿⣿⣿⡻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣯⣵⣶⣟⣳⢶⡄⠈⢻⣿⣿⣿⡿⣿⢿⠅⠀⠀⠀⠀⠀
+⠀⠀⠙⢿⣿⣿⣿⣷⣾⠯⣿⣿⣿⣧⣀⠀⠀⠈⠙⠛⠿⢿⡿⣿⣏⣁⣀⣉⣙⣣⠀⣠⣿⣿⣿⣷⣿⣭⣶⣤⡆⠀⠀⠀
+⠀⠀⠀⠀⠈⠉⠉⠉⣱⣻⣿⣿⣿⠋⠚⠻⠭⠷⣲⢤⣀⠀⠊⠛⢤⡈⣻⠋⠈⡽⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⠎⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢀⢰⣿⣿⣿⡿⠁⠀⠀⠀⢀⣠⣶⠞⠘⠯⡲⣄⣀⣽⣅⣀⡞⠀⢹⣿⣿⣿⣿⣿⡿⣿⡿⡅⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣠⣿⣾⣿⣿⡿⠁⠀⠀⠀⠀⠉⣼⣯⣽⣶⣴⣶⣿⣿⣿⣿⣻⣻⢷⣾⡟⢿⣿⣯⣷⡿⣿⣿⠋⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠛⠿⢿⣿⣛⡶⣤⣀⣀⣀⣀⣀⣿⣿⣷⣿⣲⣌⡻⣛⣿⣿⣿⣿⡿⠟⡻⣿⣷⣿⣿⣧⣸⡇⠀⠀⠀⠀⠀
 """
 ascii_raiden = """
 ⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⣤⠞⠛⣻⣧⣷⣾⣿⣿⣿⣿⣶⣶⣯⣤⣀⡀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -166,8 +192,13 @@ authenticated = False  # Flag untuk menandakan apakah sudah terautentikasi
 
 # Terima respon dari server untuk autentikasi
 response, addr = clientSocket.recvfrom(1024)
+<<<<<<< HEAD
 response = caesar_decrypt(response.decode())  # Decrypt response
 if response == "AUTH_SUCCESS":
+=======
+if response.decode() == "AUTH_SUCCESS":
+    # print("\nHaloo.... Selamat datang di chatroom!")
+>>>>>>> ed54cda6b4f668b042dcab1eda00dd70c6ab7b7e
     print("\nHaloo.... Selamat datang di chatroom!")
     print(ascii_raiden)
     authenticated = True  # Set status autentikasi
@@ -181,10 +212,16 @@ def sendMessage():
     while True:
         if authenticated:  # Hanya kirim pesan jika sudah terautentikasi
             data = input("You: ")  # Input pesan dari user (tampilannya 'You')
+<<<<<<< HEAD
             rawMessage = f"{noUrut}|{username}|{data}"  # Kirim nomor urut dan username ke server
             encrypted_message = caesar_cipher_encrypt(rawMessage, 11)
             clientSocket.sendto(encrypted_message.encode(),(IpAddress, portServer))  # Encrypt message
             
+=======
+            message = f"{noUrut}|{username}|{data}"  # Kirim nomor urut dan username ke server
+            clientSocket.sendto(message.encode(), (IpAddress, portServer))  # Kirim pesan ke server
+
+>>>>>>> ed54cda6b4f668b042dcab1eda00dd70c6ab7b7e
             # Tunggu ACK
             startTime = time.time()
             while time.time() - startTime < durasiTimeout:
