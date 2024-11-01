@@ -4,38 +4,6 @@ import time
 import csv
 import os
 
-# fungsi untuk caesar cipher enkripsi dan dekripsi
-def caesar_encrypt(text, shift=11):
-    encrypted = ""
-    for char in text:
-        if char.isalpha():
-            offset = 65 if char.isupper() else 97
-            encrypted += chr((ord(char) + shift - offset) % 26 + offset)
-        else:
-            encrypted += char
-    return encrypted
-
-def caesar_decrypt(text, shift=11):
-    decrypted = ""
-    for char in text:
-        if char.isalpha():
-            offset = 65 if char.isupper() else 97
-            decrypted += chr((ord(char) - shift - offset) % 26 + offset)
-        else:
-            decrypted += char
-    return decrypted
-
-# Fungsi Caesar Cipher untuk enkripsi pesan
-def caesar_cipher_encrypt(message, shift):
-    encrypted_message = ""
-    for char in message:
-        if char.isalpha():  # Hanya mengenkripsi huruf alfabet
-            shift_base = 65 if char.isupper() else 97
-            encrypted_message += chr((ord(char) - shift_base + shift) % 26 + shift_base)
-        else:
-            encrypted_message += char  # Karakter non-alfabet tidak diubah
-    return encrypted_message
-
 ascii_art = """
 __        __   _                            _        
 \ \      / /__| | ___ ___  _ __ ___   ___  | |_ ___  
@@ -48,6 +16,11 @@ __        __   _                            _
  \____|_| |_|\__,_|\__|_| \_\___/ \___/|_| |_| |_(_) 
 
 """
+# Fungsi untuk keluar program
+def exit_program():
+    print("Anda keluar dari chatroom.")
+    clientSocket.close()
+    os._exit(0)
 
 # Fungsi untuk memuat data pengguna dari file CSV
 def load_users(filename='users.csv'):
@@ -76,8 +49,11 @@ def login(users):
             print("Login berhasil!")
             print(ascii_art)
             return username
+        elif (username == "EXIT"):
+            exit_program()
         else:
-            print("Username atau password salah. Coba lagi.")
+            print("Username atau password salah. Coba lagi atau ketik EXIT untuk keluar dari program.")
+
 
 # Fungsi untuk registrasi
 def register(users):
@@ -89,12 +65,13 @@ def register(users):
             password = input("Masukkan password baru: ")
             save_user(username, password)
             print("Registrasi berhasil!")
+            print(ascii_art)
             return username
 
 # INPUT IP dan PORT SERVER device lain
 IpAddress = input("Masukkan IP Address: ")
 portServer = int(input("Masukkan Port Number: "))
-clientPort = int(input("Masukkan clientPort: "))
+clientPort = int(input("Masukkan Port Client: "))
 
 # Ini bikin pintu buat client (socketnya client)
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -107,7 +84,7 @@ users = load_users()
 
 # Memilih antara login atau registrasi
 while True:
-    action = input("Apa yang kamu mau?\n1. Login\n2. Register\n\nMasukkan angka: ")
+    action = input("\nApa yang kamu mau?\n1. Login\n2. Register\n\nMasukkan angka: ")
     if action == '1':
         username = login(users)
         break
@@ -119,8 +96,8 @@ while True:
 
 # Kirim password server untuk autentikasi
 server_password = input("Masukkan password server: ")
-auth_message = f"PASSWORD_CHECK|{username}|{server_password}"
-clientSocket.sendto(caesar_encrypt(auth_message).encode(), (IpAddress, portServer))  # Encrypt message
+message = f"PASSWORD_CHECK|{username}|{server_password}"
+clientSocket.sendto(message.encode(), (IpAddress, portServer))
 
 # Inisialisasi untuk nomor urut dan ACK
 noUrut = 0
@@ -130,9 +107,8 @@ authenticated = False  # Flag untuk menandakan apakah sudah terautentikasi
 
 # Terima respon dari server untuk autentikasi
 response, addr = clientSocket.recvfrom(1024)
-response = caesar_decrypt(response.decode())  # Decrypt response
-if response == "AUTH_SUCCESS":
-    print("Password server benar. Selamat datang di chatroom!")
+if response.decode() == "AUTH_SUCCESS":
+    print("\nHaloo.... Selamat datang di chatroom!")
     authenticated = True  # Set status autentikasi
 else:
     print("Password server salah. Anda tidak dapat masuk ke chatroom.")
@@ -144,9 +120,8 @@ def sendMessage():
     while True:
         if authenticated:  # Hanya kirim pesan jika sudah terautentikasi
             data = input("You: ")  # Input pesan dari user (tampilannya 'You')
-            rawMessage = f"{noUrut}|{username}|{data}"  # Kirim nomor urut dan username ke server
-            encrypted_message = caesar_cipher_encrypt(rawMessage, 11)
-            clientSocket.sendto(encrypted_message.encode(),(IpAddress, portServer))  # Encrypt message
+            message = f"{noUrut}|{username}|{data}"  # Kirim nomor urut dan username ke server
+            clientSocket.sendto(message.encode(), (IpAddress, portServer))  # Kirim pesan ke server
             
             # Tunggu ACK
             startTime = time.time()
@@ -156,7 +131,7 @@ def sendMessage():
                     ackTerima = False  # Reset status ACK
                     break
             if not ackTerima:
-                clientSocket.sendto(encrypted_message.encode(), (IpAddress, portServer))  # Encrypt message again
+                clientSocket.sendto(message.encode(), (IpAddress, portServer))
 
 # Fungsi untuk menerima pesan dari server
 def receiveMessage():
@@ -167,7 +142,7 @@ def receiveMessage():
     while True:
         try:
             data, addr = clientSocket.recvfrom(1024)
-            message = caesar_decrypt(data.decode())  # Decrypt message
+            message = data.decode()
 
             if message.startswith("ACK"):
                 angkaAck = int(message.split("|")[1])
