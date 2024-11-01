@@ -1,49 +1,13 @@
 import socket
 
-# Fungsi enkripsi menggunakan Caesar Cipher enskripsi
-def caesar_encrypt(text, shift):
-    encrypted_text = ""
-    for char in text:
-        if char.isalpha():
-            shift_base = ord('a') if char.islower() else ord('A')
-            encrypted_text += chr((ord(char) - shift_base + shift) % 26 + shift_base)
-        else:
-            encrypted_text += char
-    return encrypted_text
-
-# Fungsi dekripsi menggunakan Caesar Cipher dekripsi
-def caesar_decrypt(text, shift):
-    decrypted_text = ""
-    for char in text:
-        if char.isalpha():
-            shift_base = ord('a') if char.islower() else ord('A')
-            decrypted_text += chr((ord(char) - shift_base - shift) % 26 + shift_base)
-        else:
-            decrypted_text += char
-    return decrypted_text
-
-# Fungsi Caesar Cipher untuk dekripsi pesan
-def caesar_cipher_decrypt(message, shift):
-    decrypted_message = ""
-    for char in message:
-        if char.isalpha():  # Hanya mendekripsi huruf alfabet
-            shift_base = 65 if char.isupper() else 97
-            decrypted_message += chr((ord(char) - shift_base - shift) % 26 + shift_base)
-        else:
-            decrypted_message += char  # Karakter non-alfabet tidak diubah
-    return decrypted_message
-
 # Input IP dan port
 IpAddress       = input("Masukkan IP Address    : ")
 portServer      = int(input("Masukkan Port Number   : "))
-server_password = input("Set server password    : ")
-
-# Kunci shift untuk Caesar Cipher
-shift = 11  # Bisa diganti sesuai kebutuhan
+server_password = input("Set Server Password    : ")
 
 # Membuat server socket
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-serverSocket.bind((IpAddress, portServer))
+serverSocket.bind((IpAddress, portServer))  # Buat ngiket si IP sama port biar server bisa nerima pesannya
 
 # Inisialisasi
 clients = {}
@@ -51,31 +15,43 @@ noClient = {}
 
 print(f"Chatroom server running on {IpAddress}:{portServer}...")
 
+# Fungsi untuk mengeluarkan client dari chatroom
+def exit_client(clientAddress):
+    if clientAddress in clients:
+        print(f"Client {clientAddress} keluar dari chatroom.")
+        del clients[clientAddress]
+        del noClient[clientAddress]
+
+# Tambahkan pengecekan di dalam loop utama server untuk mendeteksi perintah exit
 while True:
     data, clientAddress = serverSocket.recvfrom(1024)
-    message = caesar_decrypt(data.decode(), shift)  # Dekripsi pesan
+    message = data.decode()
 
-    #Tambahkan bukti untuk pembuktian bahwa Caesar Cipher berhasil
-    print(f"Encrypted message received: {data.decode()}")
-    print(f"Decrypted message: {message}")
+    # Cek apakah pesan ini adalah perintah exit
+    if message.endswith("exit"):
+        exit_client(clientAddress)
+        continue
+
     # Cek apakah pesan ini adalah autentikasi dalam format "PASSWORD_CHECK|username|password"
     if message.startswith("PASSWORD_CHECK"):
         try:
             _, username, password = message.split("|", 2)
+            # Bandingkan password yang dikirim client dengan server_password
             if password == server_password:
                 if clientAddress not in clients:
-                    clients[clientAddress] = "Authenticated"
+                    clients[clientAddress] = "Authenticated"  # Set status client menjadi authenticated
                     noClient[clientAddress] = -1
                     print(f"Client authenticated successfully from {clientAddress}")
-                serverSocket.sendto(caesar_encrypt("AUTH_SUCCESS", shift).encode(), clientAddress)  # Kirim respon terenkripsi
+                serverSocket.sendto("AUTH_SUCCESS".encode(), clientAddress)
             else:
                 print(f"Failed authentication attempt from {clientAddress}.")
-                serverSocket.sendto(caesar_encrypt("AUTH_FAILED", shift).encode(), clientAddress)  # Kirim respon terenkripsi
-            continue
+                serverSocket.sendto("AUTH_FAILED".encode(), clientAddress)
+            continue  # Lanjutkan ke iterasi berikutnya
         except ValueError:
-            print("Pesan autentikasi tidak dalam format yang sesuai.")
+            print("LOG: Pesan autentikasi tidak dalam format yang sesuai.")
             continue
 
+    # Jika bukan pesan autentikasi, lanjutkan ke proses pesan chat
     if clientAddress not in clients or clients[clientAddress] != "Authenticated":
         print(f"Failed authentication attempt from {clientAddress}.")
         continue
@@ -86,17 +62,16 @@ while True:
         noUrut = int(noUrut)
 
         if noUrut == noClient[clientAddress] + 1:
-            noClient[clientAddress] = noUrut
+            noClient[clientAddress] = noUrut  # Update nomor urut terakhir
 
-            # Broadcast pesan ke semua client terenkripsi
-            encrypted_message = caesar_encrypt(message, shift)
+            # Broadcast pesan ke semua client
             for client in clients:
                 if client != clientAddress:
-                    serverSocket.sendto(encrypted_message.encode(), client)
+                    serverSocket.sendto(data, client)
 
-            # Kirim ACK ke pengirim terenkripsi dan tampilkan log di server
+            # Kirim ACK ke pengirim dan tampilkan log di server
             ackMessage = f"ACK|{noUrut}"
-            serverSocket.sendto(caesar_encrypt(ackMessage, shift).encode(), clientAddress)
+            serverSocket.sendto(ackMessage.encode(), clientAddress)
             print(f"LOG: Received message from {username} ({clientAddress}): {pesan}")
             print(f"LOG: Sent ACK for message {noUrut} to {clientAddress}")
 
