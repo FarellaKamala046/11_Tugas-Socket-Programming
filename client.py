@@ -108,7 +108,7 @@ authenticated = False  # Flag untuk menandakan apakah sudah terautentikasi
 # Terima respon dari server untuk autentikasi
 response, addr = clientSocket.recvfrom(1024)
 if response.decode() == "AUTH_SUCCESS":
-    # print("\nHaloo.... Selamat datang di chatroom!")
+    print("\nHaloo.... Selamat datang di chatroom!")
     authenticated = True  # Set status autentikasi
 else:
     print("Password server salah. Anda tidak dapat masuk ke chatroom.")
