@@ -14,8 +14,39 @@ __        __   _                            _
 | |   | '_ \ / _` | __| |_) / _ \ / _ \| '_ ` _ \| | 
 | |___| | | | (_| | |_|  _ < (_) | (_) | | | | | |_| 
  \____|_| |_|\__,_|\__|_| \_\___/ \___/|_| |_| |_(_) 
-
 """
+ascii_raiden = """
+⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⣤⠞⠛⣻⣧⣷⣾⣿⣿⣿⣿⣶⣶⣯⣤⣀⡀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠡⠀⠀⠀⢀⢠⠀⠀⠀⢔⣾⣷⠟⠁⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣭⡢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⢂⢀⢴⣿⣯⡻⣟⣵⣿⣿⣁⠨⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⣿⡿⣹⣾⠷⡿⢿⣿⢿⣿⠀⡄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣦⡠⠀⠀⠀⠀⠀⠀⠀
+⢀⣼⠿⣽⣿⠁⢎⡀⢌⣠⠏⢻⡆⢸⣿⣿⢿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣷⣻⢿⣿⣿⣿⣿⣷⡠⠀⠀⠀⠀⠀⠀
+⢸⣯⢿⣿⡿⡀⣘⠎⠙⢶⡀⠌⣿⠑⣿⣯⢿⡿⣿⣿⣯⣟⡿⣿⣿⡿⣿⣽⣟⡿⣭⣟⣾⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀
+⢸⢯⣿⣿⣷⡑⠑⠲⡄⡖⠛⠒⣼⣿⣿⣽⣯⣿⣿⣿⡷⣯⣿⣽⣳⢿⣽⣻⣾⣽⣿⣿⣿⣾⣿⣿⣿⣿⣧⠂⠀⠀⠀⠀
+⢸⣯⣿⣿⣿⠿⣧⣆⠻⣄⣶⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀
+⠘⣷⣿⡙⠁⢀⣻⣿⣿⠛⠻⢿⣿⣿⣿⣿⡿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀
+⠀⢽⣥⣷⠂⡀⢠⣿⣯⣑⣠⣾⣿⣿⣿⣿⠃⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣣⠀⠀⠀
+⠀⠀⠙⣿⣿⢿⣶⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣿⣿⣿⣿⣿⣿⣿⣻⠀⠀⠀
+⠀⠀⢰⣿⡏⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣗⠀⣀⣀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣯⠀⠀⠀
+⠀⠀⣿⠇⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠉⠀⠀⠀⠈⠻⢿⣯⡻⢿⣿⣟⣿⣿⣿⠿⠿⠿⠟⢻⣿⣿⣿⣿⣿⢇⠀⠀
+⠀⢰⡟⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⡛⠿⣆⠀⠀⠀⠀⠀⠀⠉⠁⠀⠉⠉⠉⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣟⣿⣯⠆⠀
+⠀⠺⣧⣄⣠⣿⣿⡿⠛⠻⣿⡿⣿⣿⡇⢀⣠⣤⣤⣤⣅⣒⠀⠀⠀⠀⠀⠀⠀⣮⣶⡾⢿⢷⠖⣿⣿⣿⣿⣿⡹⣿⣧⠀
+⠀⠀⢸⣿⣿⣿⡿⠠⠤⣄⡈⠧⢿⣿⣯⠛⠛⠛⠉⠉⠉⠙⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⡜⣿⡆
+⠀⢠⣿⣿⣿⣿⣿⣄⠀⠘⠮⠖⠈⢿⣿⣧⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⡿⣽⣿⣸⠇
+⠀⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⣤⣶⣶⣽⣻⢿⣷⠦⠀⠀⠀⠀⢄⣀⣀⡀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⡿⠀
+⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣤⣤⣀⣀⡀⣠⠞⢉⣶⡤⢤⣴⣶⣿⣿⣿⣿⣿⣿⣿⣿⠿⠋⠀⠀
+⠀⣻⣿⣿⣿⣿⡻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣯⣵⣶⣟⣳⢶⡄⠈⢻⣿⣿⣿⡿⣿⢿⠅⠀⠀⠀⠀⠀
+⠀⠀⠙⢿⣿⣿⣿⣷⣾⠯⣿⣿⣿⣧⣀⠀⠀⠈⠙⠛⠿⢿⡿⣿⣏⣁⣀⣉⣙⣣⠀⣠⣿⣿⣿⣷⣿⣭⣶⣤⡆⠀⠀⠀
+⠀⠀⠀⠀⠈⠉⠉⠉⣱⣻⣿⣿⣿⠋⠚⠻⠭⠷⣲⢤⣀⠀⠊⠛⢤⡈⣻⠋⠈⡽⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⠎⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢀⢰⣿⣿⣿⡿⠁⠀⠀⠀⢀⣠⣶⠞⠘⠯⡲⣄⣀⣽⣅⣀⡞⠀⢹⣿⣿⣿⣿⣿⡿⣿⡿⡅⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣠⣿⣾⣿⣿⡿⠁⠀⠀⠀⠀⠉⣼⣯⣽⣶⣴⣶⣿⣿⣿⣿⣻⣻⢷⣾⡟⢿⣿⣯⣷⡿⣿⣿⠋⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠛⠿⢿⣿⣛⡶⣤⣀⣀⣀⣀⣀⣿⣿⣷⣿⣲⣌⡻⣛⣿⣿⣿⣿⡿⠟⡻⣿⣷⣿⣿⣧⣸⡇⠀⠀⠀⠀⠀
+"""
+# Fungsi untuk keluar program
+def exit_program():
+    print("Anda keluar dari chatroom.")
+    clientSocket.close()
+    os._exit(0)
 
 # Fungsi untuk memuat data pengguna dari file CSV
 def load_users(filename='users.csv'):
@@ -102,9 +133,10 @@ authenticated = False  # Flag untuk menandakan apakah sudah terautentikasi
 
 # Terima respon dari server untuk autentikasi
 response, addr = clientSocket.recvfrom(1024)
-response = caesar_decrypt(response.decode())  # Decrypt response
-if response == "AUTH_SUCCESS":
-    print("Password server benar. Selamat datang di chatroom!")
+if response.decode() == "AUTH_SUCCESS":
+    # print("\nHaloo.... Selamat datang di chatroom!")
+    print("\nHaloo.... Selamat datang di chatroom!")
+    print(ascii_raiden)
     authenticated = True  # Set status autentikasi
 else:
     print("Password server salah. Anda tidak dapat masuk ke chatroom.")
@@ -118,7 +150,7 @@ def sendMessage():
             data = input("You: ")  # Input pesan dari user (tampilannya 'You')
             message = f"{noUrut}|{username}|{data}"  # Kirim nomor urut dan username ke server
             clientSocket.sendto(message.encode(), (IpAddress, portServer))  # Kirim pesan ke server
-            
+
             # Tunggu ACK
             startTime = time.time()
             while time.time() - startTime < durasiTimeout:
@@ -167,4 +199,3 @@ sendThread.start()
 receiveThread.start()
 
 sendThread.join()
-receiveThread.join()
