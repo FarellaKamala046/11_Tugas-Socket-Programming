@@ -3,7 +3,7 @@ import socket
 # Input IP dan port
 IpAddress       = input("Masukkan IP Address    : ")
 portServer      = int(input("Masukkan Port Number   : "))
-server_password = input("Set server password    : ")
+server_password = input("Set Server Password    : ")
 
 # Membuat server socket
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -15,9 +15,22 @@ noClient = {}
 
 print(f"Chatroom server running on {IpAddress}:{portServer}...")
 
+# Fungsi untuk mengeluarkan client dari chatroom
+def exit_client(clientAddress):
+    if clientAddress in clients:
+        print(f"Client {clientAddress} keluar dari chatroom.")
+        del clients[clientAddress]
+        del noClient[clientAddress]
+
+# Tambahkan pengecekan di dalam loop utama server untuk mendeteksi perintah exit
 while True:
     data, clientAddress = serverSocket.recvfrom(1024)
     message = data.decode()
+
+    # Cek apakah pesan ini adalah perintah exit
+    if message.endswith("exit"):
+        exit_client(clientAddress)
+        continue
 
     # Cek apakah pesan ini adalah autentikasi dalam format "PASSWORD_CHECK|username|password"
     if message.startswith("PASSWORD_CHECK"):

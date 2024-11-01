@@ -16,6 +16,11 @@ __        __   _                            _
  \____|_| |_|\__,_|\__|_| \_\___/ \___/|_| |_| |_(_) 
 
 """
+# Fungsi untuk keluar program
+def exit_program():
+    print("Anda keluar dari chatroom.")
+    clientSocket.close()
+    os._exit(0)
 
 # Fungsi untuk memuat data pengguna dari file CSV
 def load_users(filename='users.csv'):
@@ -44,8 +49,11 @@ def login(users):
             print("Login berhasil!")
             print(ascii_art)
             return username
+        elif (username == "EXIT"):
+            exit_program()
         else:
-            print("Username atau password salah. Coba lagi.")
+            print("Username atau password salah. Coba lagi atau ketik EXIT untuk keluar dari program.")
+
 
 # Fungsi untuk registrasi
 def register(users):
@@ -57,12 +65,13 @@ def register(users):
             password = input("Masukkan password baru: ")
             save_user(username, password)
             print("Registrasi berhasil!")
+            print(ascii_art)
             return username
 
 # INPUT IP dan PORT SERVER device lain
 IpAddress = input("Masukkan IP Address: ")
 portServer = int(input("Masukkan Port Number: "))
-clientPort = int(input("Masukkan clientPort: "))
+clientPort = int(input("Masukkan Port Client: "))
 
 # Ini bikin pintu buat client (socketnya client)
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -75,7 +84,7 @@ users = load_users()
 
 # Memilih antara login atau registrasi
 while True:
-    action = input("Apa yang kamu mau?\n1. Login\n2. Register\n\nMasukkan angka: ")
+    action = input("\nApa yang kamu mau?\n1. Login\n2. Register\n\nMasukkan angka: ")
     if action == '1':
         username = login(users)
         break
@@ -99,7 +108,7 @@ authenticated = False  # Flag untuk menandakan apakah sudah terautentikasi
 # Terima respon dari server untuk autentikasi
 response, addr = clientSocket.recvfrom(1024)
 if response.decode() == "AUTH_SUCCESS":
-    print("Password server benar. Selamat datang di chatroom!")
+    # print("\nHaloo.... Selamat datang di chatroom!")
     authenticated = True  # Set status autentikasi
 else:
     print("Password server salah. Anda tidak dapat masuk ke chatroom.")
